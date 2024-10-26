@@ -8,10 +8,7 @@ export default {
       },
 
       colors: {
-        primary: '#212121',
-        secondary: '#2C2C2C',
-        gray: '#404040',
-        cyan: '#5CFEF0',
+        secondary: '#010306',
       },
     },
   },

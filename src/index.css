@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-primary text-slate-100;
+html {
+  @apply text-[62.5%];
+}
+
+input {
+  @apply border-none outline-none bg-transparent;
+}
+
+section {
+  @apply my-10;
 }
