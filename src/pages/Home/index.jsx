@@ -4,10 +4,10 @@ import HorizontalScrollCard from '../../components/HorizontalScrollCard';
 import useFetch from '../../hooks/useFetch';
 
 const HomePage = () => {
-  const { data: popularMoviesData } = useFetch('/movie/popular', 1);
-  const { data: topRatedMoviesData } = useFetch('/movie/top_rated', 1);
-  const { data: popularTvData } = useFetch('/tv/popular', 1);
-  const { data: topRatedTvData } = useFetch('/tv/top_rated', 1);
+  const { data: popularMoviesData } = useFetch('/movie/popular');
+  const { data: topRatedMoviesData } = useFetch('/movie/top_rated');
+  const { data: popularTvData } = useFetch('/tv/popular');
+  const { data: topRatedTvData } = useFetch('/tv/top_rated');
 
   return (
     <section>
