@@ -46,7 +46,7 @@ const Banner = () => {
               <h1 className="font-bold text-[3.5rem]">{data?.title}</h1>
               <p className="font-light text-[1.2rem] mt-2">{data?.overview}</p>
               <button type="button" className="py-5 px-20 bg-white rounded-full text-black mt-8 font-semibold">
-                View Trailer
+                View Detail
               </button>
             </div>
 
