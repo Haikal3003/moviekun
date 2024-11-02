@@ -6,33 +6,33 @@ import useFetch from '../../hooks/useFetch';
 import useFetchDiscover from '../../hooks/useFetchDiscover';
 import Pagination from '../../components/Pagination';
 
-const MoviePage = () => {
+const TvShowPage = () => {
   const [selectedGenre, setSelectedGenre] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  const { data: movies, totalPages: totalPagesMovies } = useFetch(`/movie/popular`, currentPage);
-  const { data: genres } = useFetchGenres('/genre/movie/list');
+  const { data: TvShow, totalPages: totalPageTV } = useFetch(`/tv/popular`, currentPage);
+  const { data: genres } = useFetchGenres('/genre/tv/list');
 
   const genreQuery = selectedGenre.join(',');
 
-  const { data: filterMovie, totalPages: totalPagesWithGenre } = useFetchDiscover('/discover/movie', genreQuery, currentPage);
+  const { data: filteredTV, totalPages: totalPagesWithGenre } = useFetchDiscover('/discover/tv', genreQuery, currentPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const displayMovies = selectedGenre.length > 0 ? filterMovie : movies;
-  const totalPageCount = selectedGenre.length > 0 ? totalPagesWithGenre : totalPagesMovies;
+  const displayTV = selectedGenre.length > 0 ? filteredTV : TvShow;
+  const totalPageCount = selectedGenre.length > 0 ? totalPagesWithGenre : totalPageTV;
 
   return (
     <section className="relative w-full h-auto">
       <div className="flex justify-between gap-8">
-        <Filter selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} genres={genres} media_type="Movies" />
+        <Filter selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} genres={genres} media_type="tv" />
         <div className="grid grid-cols-5 gap-4">
-          {displayMovies.map((movie, index) => (
-            <Card key={`${movie.id}-${index}`} data={movie} media_type={'movie'} />
+          {displayTV.map((tv, index) => (
+            <Card key={`${tv.id}-${index}`} data={tv} media_type={'tv'} />
           ))}
         </div>
       </div>
@@ -41,4 +41,4 @@ const MoviePage = () => {
   );
 };
 
-export default MoviePage;
+export default TvShowPage;

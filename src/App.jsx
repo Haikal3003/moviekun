@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import { useDispatch } from 'react-redux';
 import { setBannerData, setImageURL } from './store/movieSlice';
+import Footer from './components/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,11 +33,12 @@ function App() {
   }, []);
 
   return (
-    <main className="relative font-poppins">
-      <div className="mx-[5rem] my-[2.5rem]">
+    <main className="relative font-poppins ">
+      <div className="px-[5rem] py-[2.5rem]">
         <Navbar />
         <Outlet />
       </div>
+      <Footer />
     </main>
   );
 }

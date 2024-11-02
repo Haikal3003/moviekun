@@ -1,20 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { IoMdNotifications } from 'react-icons/io';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { navigation } from '../../contants/navigation';
 
 const Navbar = () => (
-  <nav id="navbar" className="relative">
-    <div className="flex justify-between items-center">
+  <nav id="navbar" className="relative ">
+    <div className="flex justify-between items-center ">
       <div className="flex items-center">
-        <h1 id="logo-text" className="text-[2.3rem] font-bold">
+        <NavLink to={'/'} id="logo-text" className="text-[2.3rem] font-bold">
           Moviekun.
-        </h1>
+        </NavLink>
         <ul className="flex text-[1.3rem] ml-[5rem] space-x-[5rem]">
           {navigation.map((link, i) => (
             <li key={i}>
-              <Link to={link.href}>{link.label}</Link>
+              <NavLink to={link.href} className={({ isActive }) => (isActive ? 'text-black underline underline-offset-8 decoration-2 decoration-secondary' : 'text-black')}>
+                {link.label}
+              </NavLink>
             </li>
           ))}
         </ul>

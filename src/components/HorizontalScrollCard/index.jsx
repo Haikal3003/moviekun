@@ -23,11 +23,11 @@ const HorizontalScrollCard = ({ data, heading, media_type }) => {
     <div className="relative w-full my-10">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{heading}</h1>
-        <div className="flex items-center">
-          <button onClick={handlePrev} disabled={currentIndex === 0} className={`mr-4 text-xl hover:text-red-500 ${currentIndex === 0 ? 'text-gray-400 cursor-not-allowed' : ''}`}>
+        <div className="flex items-center gap-4">
+          <button onClick={handlePrev} disabled={currentIndex === 0} className={` text-xl hover:text-red-500 ${currentIndex === 0 ? 'text-gray-400 cursor-not-allowed' : ''}`}>
             Prev
           </button>
-          <button onClick={handleNext} disabled={currentIndex >= data.length - 1} className={`ml-4 text-xl hover:text-red-500 ${currentIndex >= data.length - 1 ? 'text-gray-400 cursor-not-allowed' : ''}`}>
+          <button onClick={handleNext} disabled={currentIndex >= data.length - 1} className={` text-xl hover:text-red-500 ${currentIndex >= data.length - 1 ? 'text-gray-400 cursor-not-allowed' : ''}`}>
             Next
           </button>
         </div>
@@ -35,7 +35,9 @@ const HorizontalScrollCard = ({ data, heading, media_type }) => {
       <div className="flex overflow-hidden py-6">
         <div className="flex transition-transform duration-300" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
           {data.map((item, index) => (
-            <Card key={item.id} data={item} media_type={media_type} cardRef={index === 0 ? cardRef : null} />
+            <div ref={cardRef} key={item.id}>
+              <Card data={item} media_type={media_type} />
+            </div>
           ))}
         </div>
       </div>

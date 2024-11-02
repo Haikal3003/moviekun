@@ -3,14 +3,20 @@ import { useEffect, useState } from 'react';
 
 const useFetch = (endpoint, page = 1) => {
   const [data, setData] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await axios(`${endpoint}?language=en-US&page=${page}`);
-      setData(res.data.results);
+      const res = await axios.get(endpoint, {
+        params: {
+          page: page,
+        },
+      });
 
+      setData(res.data.results);
+      setTotalPages(res.data.total_pages);
       setLoading(false);
     } catch (error) {
       console.log('Error: ', error);
@@ -19,9 +25,9 @@ const useFetch = (endpoint, page = 1) => {
 
   useEffect(() => {
     fetchData();
-  }, [endpoint]);
+  }, [endpoint, page]);
 
-  return { data, loading };
+  return { data, totalPages, loading };
 };
 
 export default useFetch;

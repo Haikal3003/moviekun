@@ -1,14 +1,10 @@
 export const navigation = [
   {
-    label: 'Movie',
-    href: '/',
+    label: 'Movies',
+    href: '/movies',
   },
   {
-    label: 'Series',
-    href: '/series',
-  },
-  {
-    label: 'People',
-    href: '/people',
+    label: 'TV Shows',
+    href: '/tv',
   },
 ];
