@@ -4,6 +4,8 @@ import MoviePage from '../pages/Movie';
 import HomePage from '../pages/Home';
 import TvShowPage from '../pages/TvShow';
 import DetailPage from '../pages/Detail';
+import LoginPage from '../pages/Login';
+import RegisterPage from '../pages/Register';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,16 @@ const router = createBrowserRouter([
       {
         path: '/:media_type/:id',
         element: <DetailPage />,
+      },
+
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+
+      {
+        path: '/register',
+        element: <RegisterPage />,
       },
     ],
   },
