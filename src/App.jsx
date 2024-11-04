@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
@@ -8,13 +8,14 @@ import Footer from './components/Footer';
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const fetchTrendingMovie = async () => {
     try {
       const res = await axios.get('/trending/movie/week');
       dispatch(setBannerData(res.data.results));
     } catch (error) {
-      console.log('error: ', error);
+      console.log('Error:', error);
     }
   };
 
@@ -23,7 +24,7 @@ function App() {
       const res = await axios.get('/configuration');
       dispatch(setImageURL(res.data.images.secure_base_url + 'original'));
     } catch (error) {
-      console.log('Error: ', error);
+      console.log('Error:', error);
     }
   };
 
@@ -32,13 +33,15 @@ function App() {
     fetchConfiguration();
   }, []);
 
+  const hideNavbarFooter = location.pathname === '/login' || location.pathname === '/register';
+
   return (
-    <main className="relative font-poppins ">
+    <main className="relative font-poppins">
       <div className="px-[5rem] py-[2.5rem]">
-        <Navbar />
+        {!hideNavbarFooter && <Navbar />}
         <Outlet />
       </div>
-      <Footer />
+      {!hideNavbarFooter && <Footer />}
     </main>
   );
 }
