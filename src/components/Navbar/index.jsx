@@ -26,7 +26,7 @@ const Navbar = () => {
         const userData = userDoc.data();
         setUserData({ ...userData, uid });
       } else {
-        console.log('User data not found in Firestore');
+        console.log('User data not found ');
       }
     };
 
@@ -110,7 +110,9 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <div onClick={toggleModal} className="flex items-center space-x-2 p-3 cursor-pointer rounded-lg hover:bg-gray-50 transition-all">
-                <IoPersonCircleSharp className="text-[3rem] text-black " />
+                <div className="w-[30px] h-[30px] mr-2">
+                  <img src="./src/assets/images/avatar.png" className="w-full h-full object-cover" />
+                </div>
                 <div className="flex items-center">
                   <span className="text-[1.2rem] text-black font-semibold mr-4">{userData && `${userData.firstName} ${userData.lastName}`}</span>
                   <IoChevronForward className={`text-[1.4rem] ${showModal ? 'rotate-90' : ''}`} />
