@@ -115,8 +115,6 @@ const DetailPage = () => {
     fetchUserData();
   }, [user, dispatch]);
 
-  console.log(favorites);
-
   return (
     <section>
       <div>
