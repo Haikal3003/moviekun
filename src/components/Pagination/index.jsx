@@ -1,15 +1,16 @@
-// src/components/Pagination.jsx
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+  const pageCount = Math.max(totalPages, 1);
+
   return (
     <ReactPaginate
       className="flex items-center justify-center gap-4 text-center mt-20 p-3 text-[1.1rem]"
       previousLabel={'Prev'}
       nextLabel={'Next'}
-      pageCount={totalPages}
-      forcePage={currentPage - 1}
+      pageCount={pageCount}
+      forcePage={Math.min(currentPage - 1, pageCount - 1)}
       marginPagesDisplayed={2}
       pageRangeDisplayed={5}
       onPageChange={(data) => onPageChange(data.selected + 1)}
