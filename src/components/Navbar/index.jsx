@@ -1,57 +1,78 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { navigation } from '../../contants/navigation';
 import { IoPersonCircleSharp, IoChevronForward } from 'react-icons/io5';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth, db } from '../../config/firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../config/firebaseConfig';
+import { useUserContext } from '../../context/userContext';
+import { FiSearch } from 'react-icons/fi';
 
 const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const { isAuthenticated, userData, setUserData } = useUserContext();
   const [showModal, setShowModal] = useState(false);
-
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const modalRef = useRef(null);
+  const searchInputRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setIsAuthenticated(true);
+    const fetchUserData = async (uid) => {
+      const userDocRef = doc(db, 'Users', uid);
+      const userDoc = await getDoc(userDocRef);
 
-        const userDocRef = doc(db, 'Users', user.uid);
-        const userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-        } else {
-          console.log('User data not found in Firestore');
-        }
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setUserData({ ...userData, uid });
       } else {
-        setIsAuthenticated(false);
-        setUserData(null);
+        console.log('User data not found in Firestore');
       }
-    });
+    };
 
-    return () => unsubscribe();
+    if (isAuthenticated) {
+      const uid = auth.currentUser.uid;
+      fetchUserData(uid);
+    } else {
+      setUserData(null);
+    }
+  }, [isAuthenticated, setUserData]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if ((modalRef.current && !modalRef.current.contains(event.target)) || (searchInputRef.current && !searchInputRef.current.contains(event.target))) {
+        setShowModal(false);
+        setShowSearchInput(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const toggleModal = () => setShowModal((prev) => !prev);
+  const toggleSearch = () => setShowSearchInput((prev) => !prev);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-
-      setIsAuthenticated(false);
-      setUserData(null);
-      setShowModal(false);
-
-      // Set timeout to ensure sign-out completes before reload
-      setTimeout(() => {
-        navigate('/', { replace: true });
-        window.location.reload();
-      }, 500); // 500ms timeout
+      navigate('/', { replace: true });
+      window.location.reload();
     } catch (error) {
       console.log('Logout failed:', error);
+    }
+  };
+
+  const handleProfileClick = () => {
+    setShowModal((prev) => !prev);
+  };
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/search?query=${encodeURIComponent(e.target.value)}`);
+      setShowSearchInput(false);
     }
   };
 
@@ -73,7 +94,19 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="relative flex items-center gap-6">
+          <div className="p-3 text-[1.5rem] rounded-full border border-black cursor-pointer hover:bg-black hover:text-white" onClick={toggleSearch}>
+            <FiSearch />
+          </div>
+
+          {showSearchInput ? (
+            <div ref={searchInputRef} className="fixed top-[14%] left-1/2 -translate-x-1/2 w-[50%] p-5 text-[1.2rem] rounded-xl bg-white  z-50 border-2 border-black" onKeyDown={handleSearch}>
+              <input type="search" className="bg-transparent w-full" placeholder="Search..." />
+            </div>
+          ) : (
+            ''
+          )}
+
           {isAuthenticated ? (
             <>
               <div onClick={toggleModal} className="flex items-center space-x-2 p-3 cursor-pointer rounded-lg hover:bg-gray-50 transition-all">
@@ -84,9 +117,9 @@ const Navbar = () => {
                 </div>
               </div>
               {showModal && (
-                <div className="absolute right-0 mt-[140px] text-[1.1rem] w-[160px] bg-white rounded-lg shadow-lg z-50 p-4">
+                <div ref={modalRef} className="absolute right-0 mt-[140px] text-[1.1rem] w-[160px] bg-white rounded-lg shadow-lg z-50 p-4">
                   <ul className="flex flex-col gap-2">
-                    <Link to="/profile" className="w-full p-4 hover:bg-gray-100 rounded-lg">
+                    <Link to="/profile" onClick={handleProfileClick} className="w-full p-4 hover:bg-gray-100 rounded-lg">
                       <li>Profile</li>
                     </Link>
                     <Link className="w-full p-4 hover:bg-gray-100 rounded-lg" onClick={handleLogout}>
