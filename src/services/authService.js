@@ -12,7 +12,8 @@ export const registerUser = async (email, password, firstName, lastName) => {
         email: email,
         firstName: firstName,
         lastName: lastName,
-        photo: '',
+        favorites: [],
+        watchlist: [],
       });
 
       console.log('User Registered Successfully!!');
