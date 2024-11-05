@@ -6,6 +6,8 @@ import TvShowPage from '../pages/TvShow';
 import DetailPage from '../pages/Detail';
 import LoginPage from '../pages/Login';
 import RegisterPage from '../pages/Register';
+import ProfilePage from '../pages/Profile';
+import SearchPage from '../pages/Search';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,19 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <RegisterPage />,
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: '/search',
+        element: <SearchPage />,
+      },
+
+      {
+        path: '/search/:media_type/:id',
+        element: <DetailPage />,
       },
     ],
   },
