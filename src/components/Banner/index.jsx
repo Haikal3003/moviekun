@@ -38,7 +38,7 @@ const Banner = () => {
           <div key={index} className="relative min-w-full min-h-full transition-all rounded-lg overflow-hidden" style={{ transform: `translateX(-${currentImage * 100}%)` }}>
             <div className="absolute top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-transparent rounded-lg"></div>
             <div className="absolute mt-12 ml-14 flex items-center justify-center p-3 w-[150px] rounded-full backdrop-blur-lg bg-white/15 z-50">
-              <img src="/src/assets/images/fire.png" className="w-[20px]" alt="Trending" />
+              <img src="./fire.png" className="w-[20px]" alt="Trending" />
               <h2 className="ml-2 text-white font-semibold">Now Trending</h2>
             </div>
 
